@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WheelTracker — Help & Documentation</title>
+  <style>
+    :root {
+      --bg:        #0f0f0f;
+      --surface:   #1a1a1a;
+      --surface2:  #222222;
+      --border:    #2a2a2a;
+      --accent:    #4cd964;
+      --text:      #e8e8e8;
+      --muted:     #888888;
+      --link:      #5ac8fa;
+      --red:       #ff3b30;
+      --orange:    #ff9f0a;
+      --sidebar-w: 240px;
+      --max-width: 760px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── Top nav ─────────────────────────────── */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 15, 15, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 24px;
+      height: 52px;
+    }
+
+    .topnav .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .topnav .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .topnav .divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border);
+    }
+
+    .topnav a.nav-link {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .topnav a.nav-link:hover {
+      color: var(--text);
+    }
+
+    .topnav .spacer { flex: 1; }
+
+    .topnav a.privacy-link {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .topnav a.privacy-link:hover {
+      color: var(--link);
+    }
+
+    /* ── Layout ──────────────────────────────── */
+    .layout {
+      display: flex;
+      max-width: calc(var(--sidebar-w) + var(--max-width) + 96px);
+      margin: 0 auto;
+      padding: 0 24px;
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    /* ── Sidebar ─────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 68px;
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+      padding: 32px 0 48px;
+      scrollbar-width: none;
+    }
+
+    .sidebar::-webkit-scrollbar { display: none; }
+
+    .sidebar-group {
+      margin-bottom: 24px;
+    }
+
+    .sidebar-group-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      padding: 0 0 8px;
+      display: block;
+    }
+
+    .sidebar a {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 0;
+      line-height: 1.4;
+      transition: color 0.15s;
+      border-left: 2px solid transparent;
+      padding-left: 10px;
+      margin-left: -12px;
+    }
+
+    .sidebar a:hover {
+      color: var(--text);
+    }
+
+    .sidebar a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar .sub-link {
+      padding-left: 22px;
+      margin-left: -12px;
+      font-size: 12px;
+    }
+
+    /* ── Main content ────────────────────────── */
+    .content {
+      flex: 1;
+      min-width: 0;
+      padding: 48px 0 96px;
+    }
+
+    /* ── Page header ─────────────────────────── */
+    .page-header {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .app-badge-large {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .app-badge-large .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .page-header h1 {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    /* ── Section headings ────────────────────── */
+    .section {
+      margin-bottom: 56px;
+      scroll-margin-top: 72px;
+    }
+
+    h2.section-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3.sub-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      scroll-margin-top: 72px;
+    }
+
+    h4.mini-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-bottom: 12px;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Lists ───────────────────────────────── */
+    ul, ol {
+      padding-left: 0;
+      list-style: none;
+      margin: 12px 0;
+    }
+
+    ul li, ol li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 7px;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    ul li::before {
+      content: "–";
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+    }
+
+    ol { counter-reset: ol-counter; }
+
+    ol li {
+      counter-increment: ol-counter;
+      padding-left: 24px;
+    }
+
+    ol li::before {
+      content: counter(ol-counter) ".";
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    li strong { color: #ffffff; }
+
+    /* ── Tables ──────────────────────────────── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead tr {
+      background: var(--surface2);
+    }
+
+    thead th {
+      text-align: left;
+      padding: 10px 16px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: var(--surface);
+    }
+
+    tbody td {
+      padding: 10px 16px;
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    tbody td strong { color: #ffffff; }
+
+    tbody td code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 12px;
+      font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+      color: var(--accent);
+    }
+
+    /* ── Code block ──────────────────────────── */
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 20px;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+
+    .code-block pre {
+      font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    .code-block .tree-leaf  { color: var(--accent); }
+    .code-block .tree-term  { color: var(--muted); }
+    .code-block .tree-label { color: var(--text); }
+    .code-block .tree-note  { color: var(--muted); font-style: italic; }
+
+    /* ── Callout / tip ───────────────────────── */
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .callout strong { color: #ffffff; }
+
+    .callout.warning {
+      border-left-color: var(--orange);
+    }
+
+    /* ── DTE badge row ───────────────────────── */
+    .dte-list {
+      list-style: none;
+      margin: 12px 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dte-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .dte-list li::before { display: none; }
+
+    .dte-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dte-dot.green  { background: var(--accent); }
+    .dte-dot.orange { background: var(--orange); }
+    .dte-dot.red    { background: var(--red); }
+
+    /* ── FAQ item ────────────────────────────── */
+    .faq-item {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .faq-q {
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .faq-a {
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .faq-a strong { color: #ffffff; }
+
+    /* ── Contact block ───────────────────────── */
+    .contact-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+
+    .contact-block p { margin-bottom: 4px; font-size: 15px; }
+
+    /* ── Links ───────────────────────────────── */
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    /* ── Footer ──────────────────────────────── */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--link); }
+
+    /* ── Inline code ─────────────────────────── */
+    code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 13px;
+      font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+      color: var(--accent);
+    }
+
+    /* ── Responsive ──────────────────────────── */
+    @media (max-width: 860px) {
+      .sidebar { display: none; }
+      .layout  { padding: 0 20px; gap: 0; }
+    }
+
+    @media (max-width: 480px) {
+      body { font-size: 15px; }
+      .page-header h1 { font-size: 26px; }
+      h2.section-title { font-size: 20px; }
+      .topnav .nav-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top nav -->
+  <nav class="topnav">
+    <a class="app-badge" href="#">
+      <span class="dot"></span>
+      WheelTracker
+    </a>
+    <span class="divider"></span>
+    <a class="nav-link" href="#getting-started">Getting Started</a>
+    <a class="nav-link" href="#key-screens">Key Screens</a>
+    <a class="nav-link" href="#faq">FAQ</a>
+    <a class="nav-link" href="#contact">Contact</a>
+    <span class="spacer"></span>
+    <a class="privacy-link" href="privacy-policy.html">Privacy Policy</a>
+  </nav>
+
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-group">
+        <span class="sidebar-group-label">Getting Started</span>
+        <a href="#what-is">What is WheelTracker?</a>
+        <a href="#first-position">Your First Position</a>
+        <a href="#managing">Managing a Position</a>
+        <a href="#wheel-model">The Wheel in WheelTracker</a>
+        <a href="#three-tabs">The Three Tabs</a>
+        <a href="#tips">Tips</a>
+      </div>
+      <div class="sidebar-group">
+        <span class="sidebar-group-label">Key Screens</span>
+        <a href="#positions-tab">Positions Tab</a>
+        <a href="#shares-tab">Shares Held Tab</a>
+        <a href="#summary-tab">Summary Tab</a>
+      </div>
+      <div class="sidebar-group">
+        <span class="sidebar-group-label">FAQ</span>
+        <a href="#faq-general">General</a>
+        <a href="#faq-wheel">The Wheel Flow</a>
+        <a href="#faq-shares">Shares Held Tab</a>
+        <a href="#faq-data">Data &amp; Import/Export</a>
+        <a href="#faq-subscription">Subscription</a>
+      </div>
+      <div class="sidebar-group">
+        <span class="sidebar-group-label">Support</span>
+        <a href="#contact">Contact &amp; Support</a>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+
+      <div class="page-header">
+        <div class="app-badge-large">
+          <span class="dot"></span>
+          WheelTracker for iOS
+        </div>
+        <h1>Getting Started</h1>
+        <p>Everything you need to track your wheel strategy positions from first open to final assignment.</p>
+      </div>
+
+      <!-- ── GETTING STARTED ───────────────────── -->
+      <div class="section" id="getting-started">
+        <h2 class="section-title">Getting Started with WheelTracker</h2>
+
+        <h3 class="sub-title" id="what-is">What is WheelTracker?</h3>
+        <p>WheelTracker is an iOS app built for options traders running the <strong>wheel strategy</strong> — selling Cash-Secured Puts (CSPs) and Covered Calls (CCs) to generate consistent premium income. It tracks your open positions, manages the full assignment lifecycle, and gives you a real-time view of your portfolio performance.</p>
+
+        <h3 class="sub-title" id="first-position">Your First Position</h3>
+
+        <h4 class="mini-title">1. Open the App</h4>
+        <p>When you first launch WheelTracker, you'll land on the <strong>Positions</strong> tab. This is your main workspace. It shows every active option leg you're currently managing.</p>
+
+        <h4 class="mini-title">2. Add a Cash-Secured Put</h4>
+        <p>Tap the <strong>+</strong> button to open the New Position form. Fill in:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Field</th><th>What to Enter</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Ticker</strong></td><td>The underlying symbol (e.g. <code>AAPL</code>)</td></tr>
+              <tr><td><strong>Strategy</strong></td><td>Cash-Secured Put</td></tr>
+              <tr><td><strong>Transaction Date</strong></td><td>The date you opened the trade</td></tr>
+              <tr><td><strong>Expiry</strong></td><td>Option expiration date</td></tr>
+              <tr><td><strong>Strike</strong></td><td>Strike price (e.g. <code>175.00</code>)</td></tr>
+              <tr><td><strong>Contracts</strong></td><td>Number of contracts</td></tr>
+              <tr><td><strong>Premium</strong></td><td>Premium received per share (e.g. <code>2.35</code>)</td></tr>
+              <tr><td><strong>Fees</strong></td><td>Total commissions paid</td></tr>
+              <tr><td><strong>Delta</strong></td><td><em>Optional</em> — delta at entry</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Tap <strong>Save</strong>. Your position appears in the Positions list with a live DTE countdown ring.</p>
+
+        <h4 class="mini-title">3. Understand the DTE Ring</h4>
+        <p>Each position row shows a circular ring indicating days to expiration:</p>
+        <ul class="dte-list">
+          <li><span class="dte-dot green"></span><strong>Green</strong> — more than 21 days remaining</li>
+          <li><span class="dte-dot orange"></span><strong>Orange</strong> — 8 to 21 days remaining</li>
+          <li><span class="dte-dot red"></span><strong>Red</strong> — 7 days or fewer remaining</li>
+        </ul>
+
+        <h3 class="sub-title" id="managing">Managing a Position</h3>
+        <p>Tap any position to open its detail view. From here you can take the following actions:</p>
+
+        <h4 class="mini-title">Roll</h4>
+        <p>The position is expiring and you want to extend it. Tap <strong>Roll</strong> to open a pre-filled form for the new leg. The original leg is preserved in the chain history, and the new leg becomes the active position.</p>
+
+        <h4 class="mini-title">Close</h4>
+        <p>You're buying back the option before expiration. Tap <strong>Close</strong> and enter the premium paid to buy it back. The position is marked terminated and moves out of your active list. The buyback cost is factored into your chain P&amp;L.</p>
+
+        <h4 class="mini-title">Expire</h4>
+        <p>The option expired worthless — you keep the full premium with no buyback cost. Tap <strong>Expire</strong> to record this. No form is needed; the position is immediately marked as terminated. This is distinct from Close: with Expire, your net contribution from this leg is $0 (the profit was already captured when you opened the position).</p>
+
+        <h4 class="mini-title">Assign</h4>
+        <p>The option was assigned. Tap <strong>Assign</strong> to record the assignment. A confirmation dialog will appear before the action executes.</p>
+        <ul>
+          <li><strong>CSP Assignment</strong> — You now own 100 shares per contract at the strike price. The position moves to the <strong>Shares Held</strong> tab and a <strong>Sell Covered Call</strong> button becomes available.</li>
+          <li><strong>CC Assignment ("Called Away")</strong> — Your shares were sold at the strike price. The position is terminated and the full chain P&amp;L is realized.</li>
+        </ul>
+
+        <div class="callout">
+          <strong>Tip:</strong> Once a position is terminated (closed, expired, or assigned), the DTE ring and Annualized ROI are hidden in the detail view. The chain summary switches from "Chain Premiums" to "Realized Chain P&amp;L."
+        </div>
+
+        <h3 class="sub-title" id="wheel-model">The Wheel in WheelTracker</h3>
+        <p>WheelTracker models the wheel strategy as a <strong>chain</strong> — a linked sequence of legs from the first CSP open through to final termination. Every leg is connected, giving you a complete picture of P&amp;L across the entire trade.</p>
+        <p>A chain ends when any leg reaches a <strong>terminal action</strong>: Close, Expire, or Assign.</p>
+
+        <div class="code-block">
+          <pre><span class="tree-label">CSP (Open)</span>
+  ├── Roll → <span class="tree-leaf">CSP (Roll)</span>        <span class="tree-note">← extend the position</span>
+  │             └── ...
+  ├── <span class="tree-term">Close</span>                    <span class="tree-note">← bought back before expiry</span>
+  ├── <span class="tree-term">Expire</span>                   <span class="tree-note">← expired worthless, full premium kept</span>
+  └── <span class="tree-leaf">Assigned</span>                 <span class="tree-note">← shares received at strike</span>
+        ├── <span class="tree-label">CC (Open)</span>
+        │     ├── Roll → <span class="tree-leaf">CC (Roll)</span>
+        │     │             └── ...
+        │     ├── <span class="tree-term">Close</span>
+        │     ├── <span class="tree-term">Expire</span>       <span class="tree-note">← CC expired worthless, shares still held</span>
+        │     └── <span class="tree-term">Assigned</span>     <span class="tree-note">← shares called away at strike</span>
+        └── <span class="tree-note">(hold shares indefinitely)</span></pre>
+        </div>
+
+        <p><strong>Close vs. Expire</strong> — both terminate the chain, but they're recorded differently. Close means you paid a premium to buy back the option; that cost is subtracted from your chain P&amp;L. Expire means the option expired worthless; your net contribution from that leg is $0, and you keep 100% of the premium collected when you opened it.</p>
+        <p>Every leg in a chain is linked and visible in the timeline section of the detail view. You can review or edit any leg at any time. Deleting a position removes the <strong>entire chain</strong>.</p>
+
+        <h3 class="sub-title" id="three-tabs">The Three Tabs</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Tab</th><th>What It Shows</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Positions</strong></td><td>Active option legs — the current open leg of each chain</td></tr>
+              <tr><td><strong>Shares Held</strong></td><td>CSP assignments where you're holding shares (not yet called away)</td></tr>
+              <tr><td><strong>Summary</strong></td><td>Portfolio-wide metrics: total premium, capital at risk, annualized ROI, and more</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub-title" id="tips">Tips for Getting the Most Out of WheelTracker</h3>
+        <ul>
+          <li><strong>Enter fees accurately</strong> — they're factored into every ROI and P&amp;L calculation.</li>
+          <li><strong>Use the Delta field</strong> — it's optional, but useful for reviewing your entry discipline over time.</li>
+          <li><strong>Roll before closing</strong> — if you're extending a position, use Roll rather than closing and opening separately. This keeps the chain intact and gives you accurate chain-level P&amp;L.</li>
+          <li><strong>Back up your data</strong> — use the <strong>↑↓</strong> button in the Summary tab to export your positions as CSV or XLSX at any time.</li>
+        </ul>
+      </div>
+
+      <!-- ── KEY SCREENS ────────────────────────── -->
+      <div class="section" id="key-screens">
+        <h2 class="section-title">Key Screens</h2>
+
+        <h3 class="sub-title" id="positions-tab">Positions Tab</h3>
+        <p>The Positions tab is your main dashboard. It shows the <strong>current active leg</strong> of every chain — meaning if you've rolled a position multiple times, you only see the most recent leg here, not every roll. Tap any row to open the full chain detail.</p>
+
+        <h4 class="mini-title">The Position Row</h4>
+        <p>Each row shows:</p>
+        <ul>
+          <li><strong>Ticker and strategy</strong> (CSP or CC)</li>
+          <li><strong>Strike and expiry date</strong></li>
+          <li><strong>Premium collected</strong> for that leg</li>
+          <li><strong>DTE countdown ring</strong> — a circular indicator that changes color as expiration approaches</li>
+        </ul>
+        <ul class="dte-list">
+          <li><span class="dte-dot green"></span>Green — more than 21 days remaining</li>
+          <li><span class="dte-dot orange"></span>Orange — 8 to 21 days remaining</li>
+          <li><span class="dte-dot red"></span>Red — 7 days or fewer remaining</li>
+        </ul>
+
+        <h4 class="mini-title">Filtering</h4>
+        <p>Use the filter controls at the top of the list to narrow your view:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Filter</th><th>Options</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Strategy</strong></td><td>All, CSP, CC</td></tr>
+              <tr><td><strong>Status</strong></td><td>All, Active, Closed</td></tr>
+              <tr><td><strong>Date Range</strong></td><td>All, Last 7 Days, Last 3 Months, Last 1 Year</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="mini-title">Swipe to Delete</h4>
+        <p>Swipe left on any row to delete it. This removes the <strong>entire chain</strong> — all legs, rolls, and linked history. This action cannot be undone.</p>
+
+        <h4 class="mini-title">Position Detail View</h4>
+        <p>Tapping a row opens the detail view, which shows:</p>
+        <ul>
+          <li>Position metrics (strike, expiry, premium, fees, DTE, annualized ROI)</li>
+          <li>Available actions: Roll, Close, Expire, Assign, Edit</li>
+          <li><strong>Chain timeline</strong> — every leg in the chain with pencil icons to edit earlier legs</li>
+          <li><strong>Chain P&amp;L</strong> — "Chain Premiums" for active positions; "Realized Chain P&amp;L" once terminated</li>
+        </ul>
+
+        <div class="callout">
+          DTE and Annualized ROI are hidden for terminated positions (closed, expired, or assigned).
+        </div>
+
+        <h3 class="sub-title" id="shares-tab">Shares Held Tab</h3>
+        <p>The Shares Held tab shows positions where you've been <strong>assigned shares via a CSP</strong> and are currently holding them. A position appears here after you record a CSP assignment and disappears if those shares are subsequently called away by a CC assignment.</p>
+
+        <h4 class="mini-title">What You See</h4>
+        <p>Each row shows the assigned position's ticker, strike (your cost basis entry point), number of contracts (× 100 = shares held), and the assignment date.</p>
+        <p>Tapping a row opens the detail view for that CSP assignment, where you can see:</p>
+        <ul>
+          <li><strong>Adjusted cost basis</strong> — your effective per-share cost after subtracting all premiums collected across the CSP chain and any linked CC chains</li>
+          <li><strong>Chain P&amp;L</strong> for the full CSP leg history</li>
+          <li><strong>Sell Covered Call</strong> button — tap this to open a new CC position linked to these shares</li>
+        </ul>
+
+        <h4 class="mini-title">What Doesn't Appear Here</h4>
+        <ul>
+          <li>Positions where a CC assignment has already occurred (shares called away)</li>
+          <li>Active CSPs that haven't been assigned yet — those remain in the Positions tab</li>
+        </ul>
+
+        <h3 class="sub-title" id="summary-tab">Summary Tab</h3>
+        <p>The Summary tab provides a <strong>real-time portfolio overview</strong>, calculated from all your transactions at runtime. There are no stored totals — every number recalculates automatically as you add or modify positions.</p>
+
+        <h4 class="mini-title">Key Metrics</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Metric</th><th>What It Means</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Total Premium Collected</strong></td><td>Net premium across all closed, expired, and active legs</td></tr>
+              <tr><td><strong>Capital at Risk</strong></td><td>Strike × 100 × contracts for all active CSP positions</td></tr>
+              <tr><td><strong>Capital in Shares</strong></td><td>Strike × 100 × contracts for all held share positions</td></tr>
+              <tr><td><strong>Realized P&amp;L</strong></td><td>Net premium from all terminated chains (closed + expired + assigned)</td></tr>
+              <tr><td><strong>Annualized ROI</strong></td><td>Weighted return across active positions</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="mini-title">Import / Export <em>(Pro)</em></h4>
+        <p>The <strong>↑↓</strong> button in the top toolbar opens the Import/Export sheet. This is a Pro-only feature. From here you can:</p>
+        <ul>
+          <li><strong>Export</strong> your full transaction history as CSV or XLSX</li>
+          <li><strong>Import</strong> a previously exported file in Append mode (adds to existing data) or Replace mode (wipes existing data first — requires confirmation)</li>
+        </ul>
+      </div>
+
+      <!-- ── FAQ ───────────────────────────────── -->
+      <div class="section" id="faq">
+        <h2 class="section-title">FAQs &amp; Troubleshooting</h2>
+
+        <h3 class="sub-title" id="faq-general">General</h3>
+
+        <div class="faq-item">
+          <p class="faq-q">What is the wheel strategy?</p>
+          <p class="faq-a">The wheel is an options income strategy where you repeatedly sell Cash-Secured Puts on a stock you're willing to own. If assigned, you sell Covered Calls against those shares. The cycle generates premium income at each step. WheelTracker is purpose-built to track this entire lifecycle.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">What's the difference between Close and Expire?</p>
+          <p class="faq-a">Both terminate a position, but they're different events. <strong>Close</strong> means you bought back the option before expiration — you paid a premium to exit, and that cost reduces your chain P&amp;L. <strong>Expire</strong> means the option expired worthless at expiration — you pay nothing and keep 100% of the premium you originally collected.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">Why do I only see one row per position, even though I've rolled it several times?</p>
+          <p class="faq-a">The Positions tab shows only the <strong>current active leg</strong> of each chain. This keeps the list focused on what needs your attention right now. To see the full history of rolls, tap the row to open the detail view and scroll to the chain timeline.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">Can I edit a position after saving it?</p>
+          <p class="faq-a">Yes. The current leg can be edited via the <strong>Edit</strong> button in the toolbar of the detail view. Earlier legs in the chain can be edited via the <strong>pencil icons</strong> in the chain timeline section.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">Why are DTE and Annualized ROI missing from the detail view?</p>
+          <p class="faq-a">These metrics are only meaningful for active positions. Once a position is terminated (closed, expired, or assigned) they're hidden automatically.</p>
+        </div>
+
+        <h3 class="sub-title" id="faq-wheel">The Wheel Flow</h3>
+
+        <div class="faq-item">
+          <p class="faq-q">How do I record a Covered Call after being assigned shares?</p>
+          <p class="faq-a">Open the detail view for the CSP assignment (find it in the <strong>Shares Held</strong> tab). Tap the <strong>Sell Covered Call</strong> button. This opens a pre-filled form and links the new CC chain back to your assignment so premiums are tracked together.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">What's the difference between "Chain Premiums" and "Realized Chain P&amp;L"?</p>
+          <p class="faq-a">"Chain Premiums" appears on active multi-leg positions and shows the running total of net premium collected so far across all legs. "Realized Chain P&amp;L" appears once the chain is fully terminated and represents the final net result.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">How is Adjusted Cost Basis calculated?</p>
+          <p class="faq-a">For CSP assignments, the adjusted cost basis is your strike price minus all net premiums collected across the entire CSP chain and any linked CC chains, divided by shares held. It reflects your true effective entry price after accounting for all premium income.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">Does WheelTracker track stock gain/loss between CSP and CC strikes?</p>
+          <p class="faq-a">No. WheelTracker captures options premium income only. The difference in share price between your CSP assignment strike and CC sale strike is out of scope and not calculated automatically.</p>
+        </div>
+
+        <h3 class="sub-title" id="faq-shares">Shares Held Tab</h3>
+
+        <div class="faq-item">
+          <p class="faq-q">A position I was assigned isn't showing in the Shares Held tab.</p>
+          <p class="faq-a">Check that you recorded the assignment using the <strong>Assign</strong> action in the position detail view, not Close or Expire. Only positions with a CSP assigned action appear in the Shares tab.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">My shares are still showing in the Shares Held tab after a CC assignment.</p>
+          <p class="faq-a">Make sure you recorded the CC assignment using the <strong>Assign</strong> action on the Covered Call position. The app detects called-away shares by looking for a CC assigned record with a later date for the same ticker. If the CC assignment wasn't recorded, the shares will continue to appear.</p>
+        </div>
+
+        <h3 class="sub-title" id="faq-data">Data &amp; Import/Export</h3>
+
+        <div class="faq-item">
+          <p class="faq-q">How do I back up my data?</p>
+          <p class="faq-a">Go to the <strong>Summary tab</strong> and tap the <strong>↑↓</strong> button (Pro required). Export as CSV or XLSX and save or share the file via the iOS share sheet. Keep a copy somewhere safe — iCloud Drive, email, or your computer.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">What's the difference between Append and Replace import modes?</p>
+          <p class="faq-a"><strong>Append</strong> adds the imported transactions alongside your existing data. Use this to merge records from another device. <strong>Replace</strong> deletes all existing data first, then imports. Use this to restore from a backup. A confirmation dialog appears before any data is deleted.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">I'm getting an error when importing an XLSX file.</p>
+          <p class="faq-a">WheelTracker's XLSX importer supports STORED (uncompressed) ZIP archives only. If your file was saved by Excel or another app using compression (DEFLATE), the import will fail with an unsupported compression error. Try exporting the file from WheelTracker itself, or re-save it using a tool that supports uncompressed XLSX output.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">Can I import data from another app or a custom spreadsheet?</p>
+          <p class="faq-a">Yes, as long as the file matches WheelTracker's 14-column schema. Download an export from the app first and use it as a template. Pay close attention to the <code>exportId</code> and <code>parentExportId</code> columns — these are required for chain relationships to be reconstructed correctly on import.</p>
+        </div>
+
+        <h3 class="sub-title" id="faq-subscription">Subscription</h3>
+
+        <div class="faq-item">
+          <p class="faq-q">What's included in the free tier?</p>
+          <p class="faq-a">The free tier supports up to <strong>5 active positions</strong>. All core tracking features — adding positions, rolling, closing, expiring, assigning, and viewing chain history — are available on the free tier.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">What does Pro unlock?</p>
+          <p class="faq-a">Pro removes the 5-position limit (unlimited active positions) and unlocks <strong>Import/Export</strong> (CSV and XLSX).</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-q">I purchased Pro but features are still locked.</p>
+          <p class="faq-a">Tap <strong>Restore Purchases</strong> on the paywall screen. If the issue persists, make sure you're signed into the same Apple ID used for the original purchase.</p>
+        </div>
+      </div>
+
+      <!-- ── CONTACT ────────────────────────────── -->
+      <div class="section" id="contact">
+        <h2 class="section-title">Contact &amp; Support</h2>
+        <p>Have a question that isn't answered here, or found a bug? I'd love to hear from you.</p>
+
+        <h3 class="sub-title">Report a Bug or Request a Feature</h3>
+        <p>The best way to report an issue or suggest a feature is via GitHub Issues:</p>
+        <div class="contact-block">
+          <p><a href="https://github.com/dhhh9575/wheeltracker-support/issues" target="_blank" rel="noopener">github.com/dhhh9575/wheeltracker-support/issues</a></p>
+        </div>
+        <p style="margin-top: 16px;">When reporting a bug, it helps to include:</p>
+        <ul>
+          <li>What you were doing when the issue occurred</li>
+          <li>What you expected to happen vs. what actually happened</li>
+          <li>Your iOS version and device model</li>
+        </ul>
+
+        <h3 class="sub-title">Get in Touch</h3>
+        <p>For general questions or support, reach out by email:</p>
+        <div class="contact-block">
+          <p><a href="mailto:support@introbirds.com">support@introbirds.com</a></p>
+        </div>
+
+        <h3 class="sub-title">Stay Updated</h3>
+        <ul>
+          <li><strong>App Store:</strong> <a href="https://apps.apple.com/app/YOUR_APP_ID" target="_blank" rel="noopener">WheelTracker on the App Store</a></li>
+          <li>Release notes are published with every App Store update</li>
+        </ul>
+      </div>
+
+      <footer>
+        <p>WheelTracker is an independent app and is not affiliated with, endorsed by, or connected to any brokerage, financial institution, or investment platform. &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a></p>
+      </footer>
+
+    </main>
+  </div>
+
+  <script>
+    // Highlight active sidebar link on scroll
+    const sections = document.querySelectorAll('[id]');
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          sidebarLinks.forEach(link => {
+            link.classList.toggle(
+              'active',
+              link.getAttribute('href') === '#' + entry.target.id
+            );
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+
+</body>
+</html>
