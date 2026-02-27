@@ -305,21 +305,4 @@ For general questions or support, reach out by email:
 - **App Store:** [WheelTracker on the App Store](https://apps.apple.com/app/YOUR_APP_ID)
 - **Release notes** are published with every App Store update
 
----
-
-That covers all four sections. Here's a summary of everything generated so far:
-
-|Section|Status|
-|---|---|
-|Getting Started|Done|
-|Key Screens|Done|
-|FAQs & Troubleshooting|Done|
-|Contact|Done|
-
-A few things you'll want to fill in before publishing:
-
-- GitHub repo URL
-- Support email address
-- App Store link
-- Response time expectation
 
